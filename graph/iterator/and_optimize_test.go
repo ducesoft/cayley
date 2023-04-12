@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package iterator_test
+package iterator
 
 // Tests relating to methods in and-iterator-optimize. Many are pretty simplistic, but
 // nonetheless cover a lot of basic cases.

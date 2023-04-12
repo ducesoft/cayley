@@ -1,4 +1,4 @@
-package iterator_test
+package iterator
 
 import (
 	"context"

@@ -279,30 +279,38 @@ type kvHook struct {
 	ops Ops
 }
 
-func (h *kvHook) log() Ops {
-	h.mu.Lock()
-	ops := h.ops
-	h.ops = nil
-	h.mu.Unlock()
+func (that *kvHook) View(ctx context.Context, fn func(tx hkv.Tx) error) error {
+	return nil
+}
+
+func (that *kvHook) Update(ctx context.Context, fn func(tx hkv.Tx) error) error {
+	return nil
+}
+
+func (that *kvHook) log() Ops {
+	that.mu.Lock()
+	ops := that.ops
+	that.ops = nil
+	that.mu.Unlock()
 	return ops
 }
 
-func (h *kvHook) addOp(op kvOp) {
-	h.mu.Lock()
-	h.ops = append(h.ops, op)
-	h.mu.Unlock()
+func (that *kvHook) addOp(op kvOp) {
+	that.mu.Lock()
+	that.ops = append(that.ops, op)
+	that.mu.Unlock()
 }
 
-func (h *kvHook) Close() error {
-	return h.db.Close()
+func (that *kvHook) Close() error {
+	return that.db.Close()
 }
 
-func (h *kvHook) Tx(rw bool) (hkv.Tx, error) {
-	tx, err := h.db.Tx(rw)
+func (that *kvHook) Tx(rw bool) (hkv.Tx, error) {
+	tx, err := that.db.Tx(rw)
 	if err != nil {
 		return nil, err
 	}
-	return txHook{h: h, tx: tx}, nil
+	return txHook{h: that, tx: tx}, nil
 }
 
 type txHook struct {
@@ -363,6 +371,6 @@ func (h txHook) Del(k hkv.Key) error {
 	return err
 }
 
-func (h txHook) Scan(pref hkv.Key) hkv.Iterator {
-	return h.tx.Scan(pref)
+func (h txHook) Scan(opts ...hkv.IteratorOption) hkv.Iterator {
+	return h.tx.Scan(opts...)
 }

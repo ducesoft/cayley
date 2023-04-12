@@ -1,4 +1,4 @@
-package iterator_test
+package iterator
 
 import (
 	"context"
@@ -7,7 +7,6 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/ducesoft/cayley/graph/graphmock"
-	"github.com/ducesoft/cayley/graph/iterator"
 	"github.com/ducesoft/cayley/graph/refs"
 	"github.com/ducesoft/cayley/quad"
 )
@@ -35,7 +34,7 @@ func TestResolverIteratorIterate(t *testing.T) {
 		expected[node], err = qs.ValueOf(node)
 		require.NoError(t, err)
 	}
-	it := iterator.NewResolver(qs, nodes...).Iterate()
+	it := NewResolver(qs, nodes...).Iterate()
 	for _, node := range nodes {
 		require.True(t, it.Next(ctx))
 		require.NoError(t, it.Err())
@@ -67,7 +66,7 @@ func TestResolverIteratorNotFoundError(t *testing.T) {
 		Data: data,
 	}
 	count := 0
-	it := iterator.NewResolver(qs, nodes...).Iterate()
+	it := NewResolver(qs, nodes...).Iterate()
 	for it.Next(ctx) {
 		count++
 	}
@@ -113,7 +112,7 @@ func TestResolverIteratorContains(t *testing.T) {
 			qs := &graphmock.Store{
 				Data: data,
 			}
-			it := iterator.NewResolver(qs, test.nodes...).Lookup()
+			it := NewResolver(qs, test.nodes...).Lookup()
 			require.Equal(t, test.contains, it.Contains(ctx, refs.PreFetched(test.subject)))
 		})
 	}
