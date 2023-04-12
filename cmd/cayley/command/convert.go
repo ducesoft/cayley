@@ -7,9 +7,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/internal"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/internal"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
 )
 
 func newLazyReader(open func() (quad.ReadCloser, error)) quad.ReadCloser {
@@ -97,7 +97,7 @@ func NewConvertCmd() *cobra.Command {
 				path := path
 				multi.rc = append(multi.rc, newLazyReader(func() (quad.ReadCloser, error) {
 					if dump == "-" {
-						clog.Infof("reading %q", path)
+						log.Info("reading %q", path)
 					} else {
 						fmt.Printf("reading %q\n", path)
 					}

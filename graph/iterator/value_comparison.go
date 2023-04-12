@@ -30,8 +30,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/quad"
 )
 
 type Operator int

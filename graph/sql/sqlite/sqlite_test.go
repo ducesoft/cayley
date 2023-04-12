@@ -1,4 +1,5 @@
-//+build cgo
+//go:build cgo
+// +build cgo
 
 package sqlite
 
@@ -8,8 +9,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/sql/sqltest"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/sql/sqltest"
 )
 
 func makeSqlite(t testing.TB) (string, graph.Options, func()) {

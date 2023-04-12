@@ -1,11 +1,11 @@
 package proto
 
 import (
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/pquads"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/pquads"
 )
 
-//go:generate protoc --proto_path=$GOPATH/src:. --gogo_out=. serializations.proto
+//go:generate protoc --proto_path=../../ --go_out=. --go_opt=module=github.com/ducesoft/cayley/graph/proto graph/proto/serializations.proto
 
 // GetNativeValue returns the value stored in Node.
 func (m *NodeData) GetNativeValue() quad.Value {

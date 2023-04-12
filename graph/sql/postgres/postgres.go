@@ -3,22 +3,24 @@ package postgres
 import (
 	"database/sql"
 	"fmt"
+	graphlog "github.com/ducesoft/cayley/graph/log"
 	"strconv"
 	"strings"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/log"
-	csql "github.com/cayleygraph/cayley/graph/sql"
-	"github.com/cayleygraph/quad"
-	"github.com/lib/pq"
+	"github.com/ducesoft/cayley/graph"
+	csql "github.com/ducesoft/cayley/graph/sql"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
 const Type = "postgres"
 
 var QueryDialect = csql.QueryDialect{
-	RegexpOp:   "~",
-	FieldQuote: pq.QuoteIdentifier,
+	RegexpOp: "~",
+	FieldQuote: func(s string) string {
+		return `"` + strings.ReplaceAll(s, `"`, `""`) + `"`
+	},
 	Placeholder: func(n int) string {
 		return fmt.Sprintf("$%d", n)
 	},
@@ -43,7 +45,7 @@ func init() {
 }
 
 func ConvError(err error) error {
-	e, ok := err.(*pq.Error)
+	e, ok := err.(*pgconn.PgError)
 	if !ok {
 		return err
 	}
@@ -58,7 +60,7 @@ func convInsertError(err error) error {
 	if err == nil {
 		return err
 	}
-	if pe, ok := err.(*pq.Error); ok {
+	if pe, ok := err.(*pgconn.PgError); ok {
 		if pe.Code == "23505" {
 			// TODO: reference to delta
 			return &graph.DeltaError{Err: graph.ErrQuadExists}
@@ -71,13 +73,13 @@ func convInsertError(err error) error {
 //	panic("broken")
 //	stmt, err := tx.Prepare(pq.CopyIn("quads", "subject", "predicate", "object", "label", "id", "ts", "subject_hash", "predicate_hash", "object_hash", "label_hash"))
 //	if err != nil {
-//		clog.Errorf("couldn't prepare COPY statement: %v", err)
+//		clog.Error("couldn't prepare COPY statement: %v", err)
 //		return err
 //	}
 //	for _, d := range in {
 //		s, p, o, l, err := marshalQuadDirections(d.Quad)
 //		if err != nil {
-//			clog.Errorf("couldn't marshal quads: %v", err)
+//			clog.Error("couldn't marshal quads: %v", err)
 //			return err
 //		}
 //		_, err = stmt.Exec(
@@ -94,7 +96,7 @@ func convInsertError(err error) error {
 //		)
 //		if err != nil {
 //			err = convInsertErrorPG(err)
-//			clog.Errorf("couldn't execute COPY statement: %v", err)
+//			clog.Error("couldn't execute COPY statement: %v", err)
 //			return err
 //		}
 //	}
@@ -143,7 +145,7 @@ func RunTx(tx *sql.Tx, nodes []graphlog.NodeUpdate, quads []graphlog.QuadUpdate,
 			_, err = stmt.Exec(values...)
 			err = convInsertError(err)
 			if err != nil {
-				clog.Errorf("couldn't exec INSERT statement: %v", err)
+				log.Error("couldn't exec INSERT statement: %v", err)
 				return err
 			}
 		} else {
@@ -192,7 +194,7 @@ func RunTx(tx *sql.Tx, nodes []graphlog.NodeUpdate, quads []graphlog.QuadUpdate,
 			err = convInsertError(err)
 			if err != nil {
 				if _, ok := err.(*graph.DeltaError); !ok {
-					clog.Errorf("couldn't exec INSERT statement: %v", err)
+					log.Error("couldn't exec INSERT statement: %v", err)
 				}
 				return err
 			}

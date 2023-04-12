@@ -28,15 +28,15 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/query"
-	"github.com/cayleygraph/cayley/query/shape"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/query"
+	"github.com/ducesoft/cayley/query/shape"
 
 	// Writer is imported for writers to be registered
-	_ "github.com/cayleygraph/cayley/writer"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/voc"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/voc"
+	_ "github.com/ducesoft/cayley/writer"
 )
 
 const (
@@ -425,7 +425,7 @@ func (api *APIv2) ServeRead(w http.ResponseWriter, r *http.Request) {
 	} else if err != nil {
 		// can do nothing here, since first byte (and header) was written
 		// TODO: check if client just gone away
-		clog.Errorf("read quads error: %v", err)
+		log.Error("read quads error: %v", err)
 	}
 }
 
@@ -546,8 +546,8 @@ func (api *APIv2) ServeQuery(w http.ResponseWriter, r *http.Request) {
 		jsonResponse(w, http.StatusBadRequest, "query is empty")
 		return
 	}
-	if clog.V(1) {
-		clog.Infof("query: %s: %q", lang, qu)
+	if log.V(1) {
+		log.Info("query: %s: %q", lang, qu)
 	}
 
 	opt := query.Options{

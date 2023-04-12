@@ -1,3 +1,4 @@
+//go:build docker
 // +build docker
 
 package postgres
@@ -5,10 +6,10 @@ package postgres
 import (
 	"testing"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/sql/sqltest"
-	"github.com/cayleygraph/cayley/internal/dock"
-	"github.com/lib/pq"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/sql/sqltest"
+	"github.com/ducesoft/cayley/internal/dock"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
 func makePostgres(t testing.TB) (string, graph.Options, func()) {
@@ -20,7 +21,7 @@ func makePostgres(t testing.TB) (string, graph.Options, func()) {
 	conf.Env = []string{`POSTGRES_PASSWORD=postgres`}
 
 	addr, closer := dock.RunAndWait(t, conf, "5432", func(addr string) bool {
-		conn, err := pq.Open(`postgres://postgres:postgres@` + addr + `/postgres?sslmode=disable`)
+		conn, err := pgconn.Open(`postgres://postgres:postgres@` + addr + `/postgres?sslmode=disable`)
 		if err != nil {
 			return false
 		}

@@ -18,13 +18,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hidal-go/hidalgo/legacy/nosql"
+	"github.com/ducesoft/cayley/dal/legacy/nosql"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
 )
 
 type Linkage struct {
@@ -171,7 +171,7 @@ func (it *iteratorNext) Next(ctx context.Context) bool {
 		if !it.iter.Next(ctx) {
 			if err := it.iter.Err(); err != nil {
 				it.err = err
-				clog.Errorf("error nexting iterator: %v", err)
+				log.Error("error nexting iterator: %v", err)
 			}
 			return false
 		}

@@ -31,7 +31,7 @@ Determines the type of the underlying database. Options include:
 
 * `btree`: An in-memory store, used mostly to quickly verify KV backend functionality.
 * `leveldb`: A persistent on-disk store backed by [LevelDB](https://github.com/google/leveldb).
-* `bolt`: Stores the graph data on-disk in a [Bolt](https://github.com/boltdb/bolt) file. Uses more disk space and memory than LevelDB for smaller stores, but is often faster to write to and comparable for large ones, with faster average query times.
+* `bolt`: Stores the graph data on-disk in a [Bolt](https://go.etcd.io/bbolt) file. Uses more disk space and memory than LevelDB for smaller stores, but is often faster to write to and comparable for large ones, with faster average query times.
 
 **NoSQL backends**
 
@@ -63,7 +63,7 @@ Where does the database actually live? Dependent on the type of database. For ea
 * `mongo`: "hostname:port" of the desired MongoDB server. More options can be provided in [mgo](https://godoc.org/github.com/globalsign/mgo#Dial) address format.
 * `elastic`: `http://host:port` of the desired ElasticSearch server.
 * `couch`: `http://user:pass@host:port/dbname` of the desired CouchDB server.
-* `postgres`,`cockroach`: `postgres://[username:password@]host[:port]/database-name?sslmode=disable` of the PostgreSQL database and credentials. Sslmode is optional. More option available on [pq](https://godoc.org/github.com/lib/pq) page.
+* `postgres`,`cockroach`: `postgres://[username:password@]host[:port]/database-name?sslmode=disable` of the PostgreSQL database and credentials. Sslmode is optional. More option available on [pq](https://godoc.org/github.com/jackc/pgx/v5) page.
 * `mysql`: `[username:password@]tcp(host[:3306])/database-name` of the MqSQL database and credentials. More option available on [driver](https://github.com/go-sql-driver/mysql#dsn-data-source-name) page.
 * `sqlite`: `filepath` of the SQLite database. More options available on [driver](https://github.com/mattn/go-sqlite3#connection-string) page.
 

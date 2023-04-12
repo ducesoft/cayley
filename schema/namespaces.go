@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/voc"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/voc"
 )
 
 type namespace struct {

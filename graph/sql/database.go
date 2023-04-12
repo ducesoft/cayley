@@ -3,11 +3,11 @@ package sql
 import (
 	"database/sql"
 	"fmt"
+	graphlog "github.com/ducesoft/cayley/graph/log"
 	"strings"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/log"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/quad"
 )
 
 var types = make(map[string]Registration)

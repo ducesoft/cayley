@@ -3,13 +3,13 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
+	graphlog "github.com/ducesoft/cayley/graph/log"
 	"strings"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/log"
-	csql "github.com/cayleygraph/cayley/graph/sql"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	csql "github.com/ducesoft/cayley/graph/sql"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
 	"github.com/go-sql-driver/mysql"
 )
 
@@ -73,7 +73,7 @@ func runTxMysql(tx *sql.Tx, nodes []graphlog.NodeUpdate, quads []graphlog.QuadUp
 			_, err = stmt.Exec(values...)
 			err = convInsertError(err)
 			if err != nil {
-				clog.Errorf("couldn't exec INSERT statement: %v", err)
+				log.Error("couldn't exec INSERT statement: %v", err)
 				return err
 			}
 		} else {
@@ -116,7 +116,7 @@ func runTxMysql(tx *sql.Tx, nodes []graphlog.NodeUpdate, quads []graphlog.QuadUp
 			err = convInsertError(err)
 			if err != nil {
 				if _, ok := err.(*graph.DeltaError); !ok {
-					clog.Errorf("couldn't exec INSERT statement: %v", err)
+					log.Error("couldn't exec INSERT statement: %v", err)
 				}
 				return err
 			}

@@ -17,10 +17,10 @@ package leveldb
 import (
 	"os"
 
-	"github.com/cayleygraph/cayley/graph"
-	hkv "github.com/hidal-go/hidalgo/kv"
-	"github.com/hidal-go/hidalgo/kv/flat"
-	"github.com/hidal-go/hidalgo/kv/flat/leveldb"
+	hkv "github.com/ducesoft/cayley/dal/kv"
+	"github.com/ducesoft/cayley/dal/kv/flat"
+	"github.com/ducesoft/cayley/dal/kv/flat/leveldb"
+	"github.com/ducesoft/cayley/graph"
 	"github.com/syndtr/goleveldb/leveldb/opt"
 )
 

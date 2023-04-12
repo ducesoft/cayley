@@ -1,0 +1,12 @@
+.EntityID {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  display: block;
+  background: var(--theme-code-block);
+  border: 1px solid var(--theme-border-color);
+  border-radius: 6px;
+  speak: literal-punctuation;
+  padding: 0.35294rem 0.94118rem;
+  display: inline-block;
+  margin: 8px 0 16px;
+}

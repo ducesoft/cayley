@@ -19,8 +19,8 @@ package iterator
 import (
 	"context"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph/refs"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/log"
 )
 
 const MaterializeLimit = 1000
@@ -239,8 +239,8 @@ func (it *materializeNext) materializeSet(ctx context.Context) {
 	}
 	it.err = it.next.Err()
 	if it.err == nil && it.aborted {
-		if clog.V(2) {
-			clog.Infof("Aborting subiterator")
+		if log.V(2) {
+			log.Info("Aborting subiterator")
 		}
 		it.values = nil
 		it.containsMap = nil

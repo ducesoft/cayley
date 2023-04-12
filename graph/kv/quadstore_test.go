@@ -10,15 +10,15 @@ import (
 	"sync"
 	"testing"
 
-	hkv "github.com/hidal-go/hidalgo/kv"
+	hkv "github.com/ducesoft/cayley/dal/kv"
 	"github.com/stretchr/testify/require"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/kv"
-	"github.com/cayleygraph/cayley/graph/kv/btree"
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/cayley/writer"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/kv"
+	"github.com/ducesoft/cayley/graph/kv/btree"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/writer"
 )
 
 func hex(s string) []byte {

@@ -20,7 +20,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/cayleygraph/cayley/graph/refs"
+	"github.com/ducesoft/cayley/graph/refs"
 )
 
 var (

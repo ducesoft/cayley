@@ -3,8 +3,8 @@ package kv
 import (
 	"strings"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/hidal-go/hidalgo/kv"
+	"github.com/ducesoft/cayley/dal/kv"
+	"github.com/ducesoft/cayley/graph"
 )
 
 func init() {

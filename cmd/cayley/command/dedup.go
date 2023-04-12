@@ -12,12 +12,12 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/cayley/query/path"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/voc/rdf"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/voc/rdf"
+	"github.com/ducesoft/cayley/query/path"
 )
 
 func iriFlag(s string, err error) (quad.IRI, error) {
@@ -134,7 +134,7 @@ func dedupProperties(ctx context.Context, h *graph.Handle, pred, typ quad.IRI) e
 		}
 		if now := time.Now(); now.Sub(last) > time.Second*5 {
 			last = now
-			clog.Infof("deduplicated %d/%d nodes (%.1f nodes/sec)",
+			log.Info("deduplicated %d/%d nodes (%.1f nodes/sec)",
 				dedup, cnt, float64(cnt)/now.Sub(start).Seconds(),
 			)
 		}
@@ -179,7 +179,7 @@ func dedupProperties(ctx context.Context, h *graph.Handle, pred, typ quad.IRI) e
 		return nil
 	})
 	flush()
-	clog.Infof("deduplicated %d/%d nodes in %v", dedup, cnt, time.Since(start))
+	log.Info("deduplicated %d/%d nodes in %v", dedup, cnt, time.Since(start))
 	if gerr != nil {
 		err = gerr
 	}

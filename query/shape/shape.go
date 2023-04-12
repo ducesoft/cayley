@@ -7,11 +7,11 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
 )
 
 var (
@@ -212,12 +212,12 @@ func IsNull(s Shape) bool {
 func BuildIterator(ctx context.Context, qs graph.QuadStore, s Shape) iterator.Shape {
 	qs = graph.Unwrap(qs)
 	if s != nil {
-		if debugShapes || clog.V(2) {
-			clog.Infof("shape: %#v", s)
+		if debugShapes || log.V(2) {
+			log.Info("shape: %#v", s)
 		}
 		s, _ = Optimize(ctx, s, qs)
-		if debugOptimizer || clog.V(2) {
-			clog.Infof("optimized: %#v", s)
+		if debugOptimizer || log.V(2) {
+			log.Info("optimized: %#v", s)
 		}
 	}
 	if IsNull(s) {
@@ -362,8 +362,8 @@ var _ ValueFilter = Wildcard{}
 
 // Wildcard is a filter for string patterns.
 //
-//   % - zero or more characters
-//   ? - exactly one character
+//	% - zero or more characters
+//	? - exactly one character
 type Wildcard struct {
 	Pattern string // allowed wildcards are: % and ?
 }

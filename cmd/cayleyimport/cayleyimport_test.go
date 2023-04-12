@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/memstore"
-	chttp "github.com/cayleygraph/cayley/internal/http"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/memstore"
+	chttp "github.com/ducesoft/cayley/internal/http"
 	"github.com/phayes/freeport"
 	"github.com/stretchr/testify/require"
 )

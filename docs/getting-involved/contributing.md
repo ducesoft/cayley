@@ -18,24 +18,12 @@ Follow the instructions for running Cayley locally:
 
 ```text
 # clone project
-git clone https://github.com/cayleygraph/cayley
+git clone https://github.com/ducesoft/cayley
 cd cayley
 
 # Download dependencies
 go mod download
-
-# Download web files (optional)
-
-go run cmd/download_ui/download_ui.go
-
-# Install packr 2
-
-go get -u github.com/gobuffalo/packr/v2/packr2
 ```
-
-## Generate static files go modules
-
-packr2
 
 ## build the binary
 
@@ -71,7 +59,7 @@ If your version of Go &lt; 1.13, you need to run:
 export GO111MODULE=on
 ```
 
-If you just want to build Cayley and check out the source, or use it as a library, a simple `go get github.com/cayleygraph/cayley` will work!
+If you just want to build Cayley and check out the source, or use it as a library, a simple `go get github.com/ducesoft/cayley` will work!
 
 But suppose you want to contribute back on your own fork \(and pull requests are welcome!\). A good way to do this is to set up your $GOPATH and then...
 
@@ -85,7 +73,7 @@ git clone https://github.com/$GITHUBUSERNAME/cayley
 
 ```text
 cd cayley
-git remote add upstream http://github.com/cayleygraph/cayley
+git remote add upstream http://github.com/ducesoft/cayley
 ```
 
 So that you can keep up with the latest changes by periodically running

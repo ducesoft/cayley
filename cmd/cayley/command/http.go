@@ -8,8 +8,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/cayleygraph/cayley/clog"
-	chttp "github.com/cayleygraph/cayley/internal/http"
+	chttp "github.com/ducesoft/cayley/internal/http"
+	"github.com/ducesoft/cayley/log"
 )
 
 func NewHTTPCmd() *cobra.Command {
@@ -39,7 +39,7 @@ func NewHTTPCmd() *cobra.Command {
 			if host, port, err := net.SplitHostPort(host); err == nil && host == "" {
 				phost = net.JoinHostPort("localhost", port)
 			}
-			clog.Infof("listening on %s, web interface at http://%s", host, phost)
+			log.Info("listening on %s, web interface at http://%s", host, phost)
 			return http.ListenAndServe(host, nil)
 		},
 	}

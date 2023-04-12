@@ -17,11 +17,11 @@ package badger
 import (
 	"os"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/kv"
-	hkv "github.com/hidal-go/hidalgo/kv"
-	"github.com/hidal-go/hidalgo/kv/flat"
-	"github.com/hidal-go/hidalgo/kv/flat/badger"
+	hkv "github.com/ducesoft/cayley/dal/kv"
+	"github.com/ducesoft/cayley/dal/kv/flat"
+	"github.com/ducesoft/cayley/dal/kv/flat/badger"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/kv"
 )
 
 const (

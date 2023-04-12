@@ -19,9 +19,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/kv/kvtest"
-	hkv "github.com/hidal-go/hidalgo/kv"
+	hkv "github.com/ducesoft/cayley/dal/kv"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/kv/kvtest"
 )
 
 func makeLeveldb(t testing.TB) (hkv.KV, graph.Options, func()) {

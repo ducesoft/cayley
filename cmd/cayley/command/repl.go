@@ -13,9 +13,9 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/internal/repl"
-	"github.com/cayleygraph/cayley/query"
+	"github.com/ducesoft/cayley/internal/repl"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/query"
 )
 
 const (
@@ -91,7 +91,7 @@ func NewQueryCmd() *cobra.Command {
 			} else {
 				return fmt.Errorf("query accepts only one argument, the query string or nothing for reading from stdin")
 			}
-			clog.Infof("Query:\n%s", querystr)
+			log.Info("Query:\n%s", querystr)
 			printBackendInfo()
 			p := mustSetupProfile(cmd)
 			defer mustFinishProfile(p)

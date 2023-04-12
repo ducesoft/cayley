@@ -9,8 +9,8 @@ import (
     "fmt"
     "log"
 
-    "github.com/cayleygraph/cayley"
-    "github.com/cayleygraph/quad"
+    "github.com/ducesoft/cayley"
+    "github.com/ducesoft/cayley/quad"
 )
 
 func main() {
@@ -42,13 +42,13 @@ func main() {
 To use other backends, you can empty-import them, eg
 
 ```go
-import _ "github.com/cayleygraph/cayley/graph/kv/bolt"
+import _ "github.com/ducesoft/cayley/graph/kv/bolt"
 ```
 
 And use them with a call like
 
 ```go
-import "github.com/cayleygraph/cayley/graph"
+import "github.com/ducesoft/cayley/graph"
 
 func open() {
   // Initialize the database
@@ -59,5 +59,5 @@ func open() {
 }
 ```
 
-More runnable examples are available in [examples](https://github.com/cayleygraph/cayley/tree/87c9c341848b59924a054ebc2dd0f2bf8c57c6a9/examples/README.md) folder.
+More runnable examples are available in [examples](https://github.com/ducesoft/cayley/tree/87c9c341848b59924a054ebc2dd0f2bf8c57c6a9/examples/README.md) folder.
 

@@ -9,10 +9,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/internal/decompressor"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/nquads"
+	"github.com/ducesoft/cayley/internal/decompressor"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/nquads"
 )
 
 // Load loads a graph from the given path and write it to qw.  See
@@ -144,9 +144,9 @@ type batchLogger struct {
 
 func (w *batchLogger) WriteQuads(quads []quad.Quad) (int, error) {
 	n, err := w.w.WriteQuads(quads)
-	if clog.V(2) {
+	if log.V(2) {
 		w.cnt += n
-		clog.Infof("Wrote %d quads.", w.cnt)
+		log.Info("Wrote %d quads.", w.cnt)
 	}
 	return n, err
 }

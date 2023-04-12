@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hidal-go/hidalgo/kv"
+	"github.com/ducesoft/cayley/dal/kv"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/cayley/query/shape"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/query/shape"
 )
 
 func (qs *QuadStore) NodesAllIterator() iterator.Shape {
@@ -23,7 +23,7 @@ func (qs *QuadStore) QuadsAllIterator() iterator.Shape {
 
 func (qs *QuadStore) indexSize(ctx context.Context, ind QuadIndex, vals []uint64) (refs.Size, error) {
 	var sz int64
-	err := kv.View(qs.db, func(tx kv.Tx) error {
+	err := kv.View(ctx, qs.db, func(tx kv.Tx) error {
 		val, err := tx.Get(ctx, ind.Key(vals))
 		if err != nil {
 			return err

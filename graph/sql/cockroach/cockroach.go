@@ -6,12 +6,13 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	graphlog "github.com/cayleygraph/cayley/graph/log"
-	csql "github.com/cayleygraph/cayley/graph/sql"
-	"github.com/jackc/pgx"
-	_ "github.com/jackc/pgx/stdlib" // registers "pgx" driver
+	"github.com/ducesoft/cayley/graph"
+	graphlog "github.com/ducesoft/cayley/graph/log"
+	csql "github.com/ducesoft/cayley/graph/sql"
+	"github.com/ducesoft/cayley/log"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
+	_ "github.com/jackc/pgx/v5/stdlib" // registers "pgx" driver
 )
 
 const Type = "cockroach"
@@ -81,7 +82,7 @@ func retryTxCockroach(tx *sql.Tx, stmts func() error) error {
 		// for either the standard PG errcode SerializationFailureError:40001 or the Cockroach extension
 		// errcode RetriableError:CR000. The Cockroach extension has been removed server-side, but support
 		// for it has been left here for now to maintain backwards compatibility.
-		pgErr, ok := err.(pgx.PgError)
+		pgErr, ok := err.(*pgconn.PgError)
 		if retryable := ok && (pgErr.Code == "CR000" || pgErr.Code == "40001"); !retryable {
 			if released {
 				err = &AmbiguousCommitError{err}
@@ -95,7 +96,7 @@ func retryTxCockroach(tx *sql.Tx, stmts func() error) error {
 }
 
 func convError(err error) error {
-	e, ok := err.(pgx.PgError)
+	e, ok := err.(*pgconn.PgError)
 	if !ok {
 		return err
 	}
@@ -110,7 +111,7 @@ func convInsertError(err error) error {
 	if err == nil {
 		return err
 	}
-	if pe, ok := err.(pgx.PgError); ok {
+	if pe, ok := err.(*pgconn.PgError); ok {
 		if pe.Code == "23505" {
 			// TODO: reference to delta
 			return &graph.DeltaError{Err: graph.ErrQuadExists}
@@ -175,7 +176,7 @@ func runTxCockroach(tx *sql.Tx, nodes []graphlog.NodeUpdate, quads []graphlog.Qu
 		_, err := tx.Exec(query.String(), allValues...)
 		err = convInsertError(err)
 		if err != nil {
-			clog.Errorf("couldn't exec node INSERT statement [%s]: %v", query.String(), err)
+			log.Error("couldn't exec node INSERT statement [%s]: %v", query.String(), err)
 			return err
 		}
 	}
@@ -215,7 +216,7 @@ func runTxCockroach(tx *sql.Tx, nodes []graphlog.NodeUpdate, quads []graphlog.Qu
 	err = convInsertError(err)
 	if err != nil {
 		if _, ok := err.(*graph.DeltaError); !ok {
-			clog.Errorf("couldn't exec quad INSERT statement [%s]: %v", query.String(), err)
+			log.Error("couldn't exec quad INSERT statement [%s]: %v", query.String(), err)
 		}
 		return err
 	}

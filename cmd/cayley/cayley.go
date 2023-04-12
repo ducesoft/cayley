@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:build !appengine
 // +build !appengine
 
 package main
@@ -25,37 +26,35 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/cayleygraph/cayley/cmd/cayley/command"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/ducesoft/cayley/cmd/cayley/command"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/cayleygraph/cayley/clog"
-	_ "github.com/cayleygraph/cayley/clog/glog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/version"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/version"
 
 	// Load supported backends
-	_ "github.com/cayleygraph/cayley/graph/all"
+	_ "github.com/ducesoft/cayley/graph/all"
 
 	// Load all supported quad formats.
-	_ "github.com/cayleygraph/quad/dot"
-	_ "github.com/cayleygraph/quad/gml"
-	_ "github.com/cayleygraph/quad/graphml"
-	_ "github.com/cayleygraph/quad/json"
-	_ "github.com/cayleygraph/quad/jsonld"
-	_ "github.com/cayleygraph/quad/nquads"
-	_ "github.com/cayleygraph/quad/pquads"
+	_ "github.com/ducesoft/cayley/quad/dot"
+	_ "github.com/ducesoft/cayley/quad/gml"
+	_ "github.com/ducesoft/cayley/quad/graphml"
+	_ "github.com/ducesoft/cayley/quad/json"
+	_ "github.com/ducesoft/cayley/quad/jsonld"
+	_ "github.com/ducesoft/cayley/quad/nquads"
+	_ "github.com/ducesoft/cayley/quad/pquads"
 
 	// Load writer registry
-	_ "github.com/cayleygraph/cayley/writer"
+	_ "github.com/ducesoft/cayley/writer"
 
 	// Load supported query languages
-	_ "github.com/cayleygraph/cayley/query/gizmo"
-	_ "github.com/cayleygraph/cayley/query/graphql"
-	_ "github.com/cayleygraph/cayley/query/mql"
-	_ "github.com/cayleygraph/cayley/query/sexp"
+	_ "github.com/ducesoft/cayley/query/gizmo"
+	_ "github.com/ducesoft/cayley/query/graphql"
+	_ "github.com/ducesoft/cayley/query/mql"
+	_ "github.com/ducesoft/cayley/query/sexp"
 )
 
 var (
@@ -63,7 +62,7 @@ var (
 		Use:   "cayley",
 		Short: "Cayley is a graph store and graph query layer.",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-			clog.Infof("Cayley version: %s (%s)", version.Version, version.GitHash)
+			log.Info("Cayley version: %s (%s)", version.Version, version.GitHash)
 			if conf, _ := cmd.Flags().GetString("config"); conf != "" {
 				viper.SetConfigFile(conf)
 			}
@@ -76,7 +75,7 @@ var (
 				if rel, _ := filepath.Rel(wd, conf); rel != "" && strings.Count(rel, "..") < 3 {
 					conf = rel
 				}
-				clog.Infof("using config file: %s", conf)
+				log.Info("using config file: %s", conf)
 			}
 			// force viper to load flags to variables
 			graph.IgnoreDuplicates = viper.GetBool("load.ignore_duplicates")
@@ -85,14 +84,7 @@ var (
 			if host, _ := cmd.Flags().GetString("pprof"); host != "" {
 				go func() {
 					if err := http.ListenAndServe(host, nil); err != nil {
-						clog.Errorf("failed to run pprof handler: %v", err)
-					}
-				}()
-			}
-			if host, _ := cmd.Flags().GetString("metrics"); host != "" {
-				go func() {
-					if err := http.ListenAndServe(host, promhttp.Handler()); err != nil {
-						clog.Errorf("failed to run metrics handler: %v", err)
+						log.Error("failed to run pprof handler: %v", err)
 					}
 				}()
 			}
@@ -207,7 +199,7 @@ func init() {
 
 func main() {
 	if err := rootCmd.Execute(); err != nil {
-		clog.Errorf("%v", err)
+		log.Error("%v", err)
 		os.Exit(1)
 	}
 }

@@ -3,9 +3,9 @@ package steps
 import (
 	"testing"
 
-	"github.com/cayleygraph/cayley/query/path"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/voc"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/voc"
+	"github.com/ducesoft/cayley/query/path"
 	"github.com/stretchr/testify/require"
 )
 

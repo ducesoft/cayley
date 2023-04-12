@@ -15,8 +15,8 @@
 package writer
 
 import (
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/quad"
 )
 
 func init() {

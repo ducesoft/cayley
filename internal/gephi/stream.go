@@ -13,15 +13,15 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/query/path"
-	"github.com/cayleygraph/cayley/query/shape"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/voc/rdf"
-	"github.com/cayleygraph/quad/voc/rdfs"
-	"github.com/cayleygraph/quad/voc/schema"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/voc/rdf"
+	"github.com/ducesoft/cayley/quad/voc/rdfs"
+	"github.com/ducesoft/cayley/quad/voc/schema"
+	"github.com/ducesoft/cayley/query/path"
+	"github.com/ducesoft/cayley/query/shape"
 )
 
 const (
@@ -226,7 +226,7 @@ func (s *GraphStreamHandler) serveRawQuads(ctx context.Context, gs *GraphStream,
 		q, err := s.QS.Quad(qv)
 		if err != nil {
 			// TODO: no error handling
-			clog.Warningf("error fetching quad value: %v", err)
+			log.Warn("error fetching quad value: %v", err)
 			continue
 		}
 		quad.HashTo(q.Subject, sh[:])
@@ -260,7 +260,7 @@ func (s *GraphStreamHandler) serveNodesWithProps(ctx context.Context, gs *GraphS
 		return nil
 	})
 	if err != nil {
-		clog.Errorf("cannot iterate over properties: %v", err)
+		log.Error("cannot iterate over properties: %v", err)
 		return
 	}
 	// inline some well-known predicates

@@ -21,12 +21,12 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/graphtest/testutil"
-	_ "github.com/cayleygraph/cayley/graph/memstore"
-	"github.com/cayleygraph/cayley/query"
-	_ "github.com/cayleygraph/cayley/writer"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/graphtest/testutil"
+	_ "github.com/ducesoft/cayley/graph/memstore"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/query"
+	_ "github.com/ducesoft/cayley/writer"
 )
 
 // This is a simple test graph.

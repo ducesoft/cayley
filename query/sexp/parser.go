@@ -17,12 +17,10 @@ package sexp
 import (
 	"context"
 
-	"github.com/badgerodon/peg"
-
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/query/shape"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/query/shape"
 )
 
 func BuildIteratorTreeForQuery(ctx context.Context, qs graph.QuadStore, query string) iterator.Shape {
@@ -44,8 +42,8 @@ func ParseString(input string) string {
 	return parseQuery(input).String()
 }
 
-func newParser() *peg.Parser {
-	parser := peg.NewParser()
+func newParser() *Parser {
+	parser := NewParser()
 
 	start := parser.NonTerminal("Start")
 	whitespace := parser.NonTerminal("Whitespace")
@@ -178,11 +176,11 @@ func newParser() *peg.Parser {
 	return parser
 }
 
-func parseQuery(input string) *peg.ExpressionTree {
+func parseQuery(input string) *ExpressionTree {
 	return newParser().Parse(input)
 }
 
-func getIdentString(tree *peg.ExpressionTree) string {
+func getIdentString(tree *ExpressionTree) string {
 	out := ""
 	if len(tree.Children) > 0 {
 		for _, child := range tree.Children {
@@ -200,7 +198,7 @@ func lookup(s string) shape.Shape {
 	return shape.Lookup{quad.StringToValue(s)}
 }
 
-func buildShape(tree *peg.ExpressionTree) (_ shape.Shape, opt bool) {
+func buildShape(tree *ExpressionTree) (_ shape.Shape, opt bool) {
 	switch tree.Name {
 	case "Start":
 		return buildShape(tree.Children[0])

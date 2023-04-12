@@ -3,7 +3,7 @@ package iterator
 import (
 	"context"
 
-	"github.com/cayleygraph/cayley/graph/refs"
+	"github.com/ducesoft/cayley/graph/refs"
 )
 
 // Unique iterator removes duplicate values from it's subiterator.

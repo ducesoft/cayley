@@ -10,12 +10,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/cayleygraph/cayley/clog"
+	"github.com/ducesoft/cayley/log"
 
 	// Load all supported quad formats.
-	"github.com/cayleygraph/quad"
-	_ "github.com/cayleygraph/quad/jsonld"
-	_ "github.com/cayleygraph/quad/nquads"
+	"github.com/ducesoft/cayley/quad"
+	_ "github.com/ducesoft/cayley/quad/jsonld"
+	_ "github.com/ducesoft/cayley/quad/nquads"
 
 	"github.com/spf13/cobra"
 )
@@ -33,7 +33,7 @@ func NewCmd() *cobra.Command {
 		Args:  cobra.MaximumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if quiet {
-				clog.SetV(500)
+				log.SetV(500)
 			}
 			var format *quad.Format
 			var reader io.Reader
@@ -51,7 +51,7 @@ func NewCmd() *cobra.Command {
 				if formatName == "" {
 					format = formatByFileName(fileName)
 					if format == nil {
-						clog.Warningf("File has unknown extension %v. Defaulting to %v", fileName, defaultFormat)
+						log.Warn("File has unknown extension %v. Defaulting to %v", fileName, defaultFormat)
 					}
 				}
 				file, err := os.Open(fileName)

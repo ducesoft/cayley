@@ -3,9 +3,9 @@ package inference
 import (
 	"testing"
 
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/voc/rdf"
-	"github.com/cayleygraph/quad/voc/rdfs"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/voc/rdf"
+	"github.com/ducesoft/cayley/quad/voc/rdfs"
 	"github.com/stretchr/testify/require"
 )
 

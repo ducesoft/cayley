@@ -7,11 +7,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/memstore"
-	chttp "github.com/cayleygraph/cayley/internal/http"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/jsonld"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/memstore"
+	chttp "github.com/ducesoft/cayley/internal/http"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/jsonld"
 	"github.com/phayes/freeport"
 	"github.com/stretchr/testify/require"
 )

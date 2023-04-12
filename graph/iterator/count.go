@@ -3,8 +3,8 @@ package iterator
 import (
 	"context"
 
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/quad"
 )
 
 // Count iterator returns one element with size of underlying iterator.

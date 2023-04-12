@@ -18,8 +18,8 @@ import (
 	"context"
 	"sort"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph/refs"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/log"
 )
 
 // Perhaps the most tricky file in this entire module. Really a method on the
@@ -81,8 +81,8 @@ func (it *And) Optimize(ctx context.Context) (Shape, bool) {
 	}
 
 	_ = newAnd.optimizeContains(ctx)
-	if clog.V(3) {
-		clog.Infof("%p become %p", it, newAnd)
+	if log.V(3) {
+		log.Info("%p become %p", it, newAnd)
 	}
 	return newAnd, true
 }
@@ -135,16 +135,16 @@ func optimizeOrder(ctx context.Context, its []Shape) []Shape {
 			cost += stats.ContainsCost * (1 + (rootStats.Size.Value / (stats.Size.Value + 1)))
 		}
 		cost *= rootStats.Size.Value
-		if clog.V(3) {
-			clog.Infof("And: Root: %p Total Cost: %v Best: %v", root, cost, bestCost)
+		if log.V(3) {
+			log.Info("And: Root: %p Total Cost: %v Best: %v", root, cost, bestCost)
 		}
 		if cost < bestCost {
 			best = root
 			bestCost = cost
 		}
 	}
-	if clog.V(3) {
-		clog.Infof("And: Choosing: %p Best: %v", best, bestCost)
+	if log.V(3) {
+		log.Info("And: Choosing: %p Best: %v", best, bestCost)
 	}
 
 	// TODO(barakmich): Optimization of order need not stop here. Picking a smart

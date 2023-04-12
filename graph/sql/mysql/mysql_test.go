@@ -1,3 +1,4 @@
+//go:build docker
 // +build docker
 
 package mysql
@@ -5,9 +6,9 @@ package mysql
 import (
 	"testing"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/sql/sqltest"
-	"github.com/cayleygraph/cayley/internal/dock"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/sql/sqltest"
+	"github.com/ducesoft/cayley/internal/dock"
 )
 
 func makeMysqlVersion(image string) sqltest.DatabaseFunc {

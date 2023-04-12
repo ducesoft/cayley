@@ -17,18 +17,16 @@ package http
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/ducesoft/cayley/web"
 	"net/http"
 	"time"
 
-	"github.com/gobuffalo/packr/v2"
 	"github.com/julienschmidt/httprouter"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/internal/gephi"
-	cayleyhttp "github.com/cayleygraph/cayley/server/http"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/internal/gephi"
+	cayleyhttp "github.com/ducesoft/cayley/server/http"
 )
-
-var ui = packr.New("UI", "../../ui")
 
 func jsonResponse(w http.ResponseWriter, code int, err interface{}) {
 	w.Header().Set("Content-Type", "application/json")
@@ -70,7 +68,7 @@ func SetupRoutes(handle *graph.Handle, cfg *Config) error {
 	api2.SetQueryTimeout(cfg.Timeout)
 
 	// For non API requests serve the UI
-	r.NotFound = http.FileServer(ui)
+	r.NotFound = http.FileServer(http.FS(web.UI))
 
 	http.Handle("/", CORS(LogRequest(r)))
 

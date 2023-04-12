@@ -1,0 +1,25 @@
+.QueryHistory {
+  flex: 1;
+  overflow: auto;
+}
+
+.QueryHistory .mdc-list-item {
+  display: flex;
+}
+
+.QueryHistory .query {
+  height: 2em;
+  font-family: monospace;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.QueryHistory .time {
+  width: 5em;
+  flex-shrink: 0;
+}
+
+.QueryHistory .language,
+.QueryHistory .status {
+  margin: 0 16px;
+}

@@ -10,11 +10,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/cayleygraph/cayley/graph/memstore"
-	"github.com/cayleygraph/cayley/query/linkedql"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/jsonld"
-	"github.com/cayleygraph/quad/voc"
+	"github.com/ducesoft/cayley/graph/memstore"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/jsonld"
+	"github.com/ducesoft/cayley/quad/voc"
+	"github.com/ducesoft/cayley/query/linkedql"
 	"github.com/stretchr/testify/require"
 )
 

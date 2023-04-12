@@ -4,8 +4,8 @@ import (
 	"context"
 	"math"
 
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/quad"
 )
 
 const recursiveBaseTag = "__base_recursive"

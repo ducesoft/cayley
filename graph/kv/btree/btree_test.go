@@ -17,10 +17,10 @@ package btree
 import (
 	"testing"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/kv/kvtest"
-	hkv "github.com/hidal-go/hidalgo/kv"
-	"github.com/hidal-go/hidalgo/kv/kvdebug"
+	hkv "github.com/ducesoft/cayley/dal/kv"
+	"github.com/ducesoft/cayley/dal/kv/kvdebug"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/kv/kvtest"
 )
 
 const debug = false

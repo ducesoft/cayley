@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"io"
 
-	"github.com/dennwc/graphql/gqlerrors"
+	"github.com/graphql-go/graphql/gqlerrors"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/query"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/query"
 )
 
 type httpResult struct {

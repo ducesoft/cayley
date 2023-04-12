@@ -30,7 +30,7 @@ For more information about the UI see: [UI Overview](usage/ui-overview.md)
 
 ### Download sample data
 
-[Sample Data](https://github.com/cayleygraph/cayley/raw/master/data/30kmoviedata.nq.gz)
+[Sample Data](https://github.com/ducesoft/cayley/raw/master/data/30kmoviedata.nq.gz)
 
 ### Run Cayley
 

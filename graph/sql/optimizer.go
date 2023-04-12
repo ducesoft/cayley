@@ -20,9 +20,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/query/shape"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/query/shape"
 )
 
 func NewOptimizer() *Optimizer {

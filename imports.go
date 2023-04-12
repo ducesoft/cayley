@@ -1,12 +1,12 @@
 package cayley
 
 import (
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	_ "github.com/cayleygraph/cayley/graph/memstore"
-	"github.com/cayleygraph/cayley/query/path"
-	_ "github.com/cayleygraph/cayley/writer"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/iterator"
+	_ "github.com/ducesoft/cayley/graph/memstore"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/query/path"
+	_ "github.com/ducesoft/cayley/writer"
 )
 
 var (

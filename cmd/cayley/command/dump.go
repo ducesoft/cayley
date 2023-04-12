@@ -8,16 +8,16 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
 )
 
 func writerQuadsTo(path string, typ string, qr quad.Reader) error {
 	var f *os.File
 	if path == "-" {
 		f = os.Stdout
-		clog.Infof("writing quads to stdout")
+		log.Info("writing quads to stdout")
 	} else {
 		var err error
 		f, err = os.Create(path)

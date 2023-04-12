@@ -4,10 +4,10 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/graph/memstore"
-	"github.com/cayleygraph/cayley/schema"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/graph/memstore"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/schema"
 	"github.com/stretchr/testify/require"
 )
 

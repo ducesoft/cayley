@@ -1,8 +1,9 @@
-//+build cgo
+//go:build cgo
+// +build cgo
 
 package all
 
 import (
 	// backends requiring cgo
-	_ "github.com/cayleygraph/cayley/graph/sql/sqlite"
+	_ "github.com/ducesoft/cayley/graph/sql/sqlite"
 )

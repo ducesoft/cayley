@@ -13,10 +13,10 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/internal"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/internal"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
 )
 
 const (
@@ -177,7 +177,7 @@ func NewUpgradeCmd() *cobra.Command {
 			}
 			addr := viper.GetString(KeyAddress)
 			opts := graph.Options(viper.GetStringMap(KeyOptions))
-			clog.Infof("upgrading database...")
+			log.Info("upgrading database...")
 			return graph.UpgradeQuadStore(name, addr, opts)
 		},
 	}
@@ -190,7 +190,7 @@ func printBackendInfo() {
 	if path != "" {
 		path = " (" + path + ")"
 	}
-	clog.Infof("using backend %q%s", name, path)
+	log.Info("using backend %q%s", name, path)
 }
 
 func initDatabase() error {
@@ -220,7 +220,7 @@ func openForQueries(cmd *cobra.Command) (*graph.Handle, error) {
 		return nil, err
 	} else if init {
 		if err = initDatabase(); err == graph.ErrDatabaseExists {
-			clog.Infof("database already initialized, skipping init")
+			log.Info("database already initialized, skipping init")
 		} else if err != nil {
 			return nil, err
 		}
@@ -260,7 +260,7 @@ func openForQueries(cmd *cobra.Command) (*graph.Handle, error) {
 			h.Close()
 			return nil, err
 		}
-		clog.Infof("loaded %q in %v", load, time.Since(start))
+		log.Info("loaded %q in %v", load, time.Since(start))
 	}
 	return h, nil
 }

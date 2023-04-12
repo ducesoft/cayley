@@ -20,19 +20,21 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/ducesoft/cayley/dal/kv/options"
 	"io"
 	"sort"
 	"time"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	graphlog "github.com/cayleygraph/cayley/graph/log"
-	"github.com/cayleygraph/cayley/graph/proto"
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/pquads"
+	"github.com/ducesoft/cayley/graph"
+	graphlog "github.com/ducesoft/cayley/graph/log"
+	"github.com/ducesoft/cayley/graph/proto"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/pquads"
+	pb "google.golang.org/protobuf/proto"
 
-	"github.com/hidal-go/hidalgo/kv"
+	"github.com/ducesoft/cayley/dal/kv"
 	"github.com/prometheus/client_golang/prometheus"
 	boom "github.com/tylertreat/BoomFilters"
 )
@@ -812,8 +814,8 @@ func (qs *QuadStore) bestUnique() ([]QuadIndex, error) {
 	}
 	for _, in := range qs.indexes.all {
 		if in.Unique {
-			if clog.V(2) {
-				clog.Infof("using unique index: %v", in.Dirs)
+			if log.V(2) {
+				log.Info("using unique index: %v", in.Dirs)
 			}
 			qs.indexes.exists = []QuadIndex{in}
 			return qs.indexes.exists, nil
@@ -824,8 +826,8 @@ func (qs *QuadStore) bestUnique() ([]QuadIndex, error) {
 	if len(inds) == 0 {
 		return nil, fmt.Errorf("no indexes defined")
 	}
-	if clog.V(2) {
-		clog.Infof("using index intersection: %v", inds)
+	if log.V(2) {
+		log.Info("using index intersection: %v", inds)
 	}
 	qs.indexes.exists = inds
 	return qs.indexes.exists, nil
@@ -1045,7 +1047,7 @@ func (qs *QuadStore) indexSchema(tx kv.Tx, p *proto.Primitive) error {
 }
 
 func (qs *QuadStore) addToLog(tx kv.Tx, p *proto.Primitive) error {
-	buf, err := p.Marshal()
+	buf, err := pb.Marshal(p)
 	if err != nil {
 		return err
 	}
@@ -1158,7 +1160,7 @@ func (qs *QuadStore) getPrimitivesFromLog(ctx context.Context, tx kv.Tx, keys []
 			continue
 		}
 		var p proto.Primitive
-		if err = p.Unmarshal(v); err != nil {
+		if err = pb.Unmarshal(v, &p); err != nil {
 			last = err
 		} else {
 			out[i] = &p
@@ -1183,14 +1185,14 @@ func (qs *QuadStore) initBloomFilter(ctx context.Context) error {
 	}
 	qs.exists.buf = make([]byte, 3*8)
 	qs.exists.DeletableBloomFilter = boom.NewDeletableBloomFilter(100*1000*1000, 120, 0.05)
-	return kv.View(qs.db, func(tx kv.Tx) error {
+	return kv.View(ctx, qs.db, func(tx kv.Tx) error {
 		p := proto.Primitive{}
-		it := tx.Scan(logIndex)
+		it := tx.Scan(options.WithPrefixKV(logIndex))
 		defer it.Close()
 		for it.Next(ctx) {
 			v := it.Val()
 			p = proto.Primitive{}
-			err := p.Unmarshal(v)
+			err := pb.Unmarshal(v, &p)
 			if err != nil {
 				return err
 			}

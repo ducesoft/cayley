@@ -18,11 +18,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/kv"
-	hkv "github.com/hidal-go/hidalgo/kv"
-	"github.com/hidal-go/hidalgo/kv/bolt"
+	hkv "github.com/ducesoft/cayley/dal/kv"
+	"github.com/ducesoft/cayley/dal/kv/bolt"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/kv"
+	"github.com/ducesoft/cayley/log"
 )
 
 func init() {
@@ -53,7 +53,7 @@ func Create(path string, _ graph.Options) (hkv.KV, error) {
 	}
 	db, err := bolt.Open(getBoltFile(path), nil)
 	if err != nil {
-		clog.Errorf("Error: couldn't create Bolt database: %v", err)
+		log.Error("Error: couldn't create Bolt database: %v", err)
 		return nil, err
 	}
 	return db, nil
@@ -62,7 +62,7 @@ func Create(path string, _ graph.Options) (hkv.KV, error) {
 func Open(path string, opt graph.Options) (hkv.KV, error) {
 	db, err := bolt.Open(getBoltFile(path), nil)
 	if err != nil {
-		clog.Errorf("Error, couldn't open! %v", err)
+		log.Error("Error, couldn't open! %v", err)
 		return nil, err
 	}
 	bdb := db.DB()
@@ -74,7 +74,7 @@ func Open(path string, opt graph.Options) (hkv.KV, error) {
 	}
 	bdb.NoGrowSync = bdb.NoSync
 	if bdb.NoSync {
-		clog.Infof("Running in nosync mode")
+		log.Info("Running in nosync mode")
 	}
 	return db, nil
 }

@@ -17,13 +17,14 @@ package kv
 import (
 	"context"
 	"fmt"
+	"github.com/ducesoft/cayley/dal/kv/options"
 
-	"github.com/hidal-go/hidalgo/kv"
+	"github.com/ducesoft/cayley/dal/kv"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/graph/proto"
-	"github.com/cayleygraph/cayley/graph/refs"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/graph/proto"
+	"github.com/ducesoft/cayley/graph/refs"
 )
 
 type QuadIterator struct {
@@ -167,7 +168,7 @@ func (it *quadIteratorNext) Next(ctx context.Context) bool {
 		if !it.ensureTx() {
 			return false
 		}
-		it.it = it.tx.Scan(it.ind.Key(it.vals))
+		it.it = it.tx.Scan(options.WithPrefixKV(it.ind.Key(it.vals)))
 		if err := it.Err(); err != nil {
 			it.err = err
 			return false

@@ -20,8 +20,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-
-	. "github.com/cayleygraph/cayley/graph/iterator"
 )
 
 func TestMaterializeIteratorError(t *testing.T) {

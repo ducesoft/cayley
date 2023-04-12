@@ -22,28 +22,27 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/graphtest"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/cayley/query/shape"
-	"github.com/cayleygraph/cayley/writer"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/graphtest"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/query/shape"
+	"github.com/ducesoft/cayley/writer"
 )
 
 // This is a simple test graph.
 //
-//    +---+                        +---+
-//    | A |-------               ->| F |<--
-//    +---+       \------>+---+-/  +---+   \--+---+
-//                 ------>|#B#|      |        | E |
-//    +---+-------/      >+---+      |        +---+
-//    | C |             /            v
-//    +---+           -/           +---+
-//      ----    +---+/             |#G#|
-//          \-->|#D#|------------->+---+
-//              +---+
-//
+//	+---+                        +---+
+//	| A |-------               ->| F |<--
+//	+---+       \------>+---+-/  +---+   \--+---+
+//	             ------>|#B#|      |        | E |
+//	+---+-------/      >+---+      |        +---+
+//	| C |             /            v
+//	+---+           -/           +---+
+//	  ----    +---+/             |#G#|
+//	      \-->|#D#|------------->+---+
+//	          +---+
 var simpleGraph = []quad.Quad{
 	quad.MakeRaw("A", "follows", "B", ""),
 	quad.MakeRaw("C", "follows", "B", ""),

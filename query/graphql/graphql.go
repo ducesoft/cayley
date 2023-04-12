@@ -10,16 +10,15 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/dennwc/graphql/language/ast"
-	"github.com/dennwc/graphql/language/lexer"
-	"github.com/dennwc/graphql/language/parser"
+	"github.com/graphql-go/graphql/language/ast"
+	"github.com/graphql-go/graphql/language/parser"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/cayley/query"
-	"github.com/cayleygraph/cayley/query/path"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/query"
+	"github.com/ducesoft/cayley/query/path"
 )
 
 const Name = "graphql"
@@ -36,8 +35,6 @@ func allowedNameRune(r rune) bool {
 }
 
 func init() {
-	lexer.AllowNameRunes = allowedNameRune
-
 	query.RegisterLanguage(query.Language{
 		Name: Name,
 		Session: func(qs graph.QuadStore) query.Session {

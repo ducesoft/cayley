@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/cayleygraph/cayley/clog"
+	"github.com/ducesoft/cayley/log"
 )
 
 // statusWriter wraps http.ResponseWriter and captures the written status code
@@ -42,8 +42,8 @@ func LogRequest(handler http.Handler) http.Handler {
 		start := time.Now()
 		addr := getAddress(req)
 		sw := newStatusWriter(w)
-		clog.Infof("started %s %s for %s", req.Method, req.URL.Path, addr)
+		log.Info("started %s %s for %s", req.Method, req.URL.Path, addr)
 		handler.ServeHTTP(sw, req)
-		clog.Infof("completed %v %s %s in %v", sw.code, http.StatusText(sw.code), req.URL.Path, time.Since(start))
+		log.Info("completed %v %s %s in %v", sw.code, http.StatusText(sw.code), req.URL.Path, time.Since(start))
 	})
 }

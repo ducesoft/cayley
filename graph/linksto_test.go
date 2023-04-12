@@ -20,10 +20,10 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/graphmock"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/graphmock"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/quad"
 )
 
 func TestLinksTo(t *testing.T) {

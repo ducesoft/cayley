@@ -1,11 +1,11 @@
 package steps
 
 import (
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/query/linkedql"
-	"github.com/cayleygraph/cayley/query/path"
-	"github.com/cayleygraph/cayley/query/shape"
-	"github.com/cayleygraph/quad/voc"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/quad/voc"
+	"github.com/ducesoft/cayley/query/linkedql"
+	"github.com/ducesoft/cayley/query/path"
+	"github.com/ducesoft/cayley/query/shape"
 )
 
 func init() {

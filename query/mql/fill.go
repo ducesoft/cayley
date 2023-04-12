@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/quad"
 )
 
 func (q *Query) treeifyResult(tags map[string]graph.Ref) (map[ResultPath]string, error) {

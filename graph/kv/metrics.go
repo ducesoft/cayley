@@ -2,8 +2,7 @@ package kv
 
 import (
 	"context"
-
-	"github.com/hidal-go/hidalgo/kv"
+	"github.com/ducesoft/cayley/dal/kv"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
@@ -169,7 +168,7 @@ func (tx *mTx) Del(k kv.Key) error {
 	return tx.tx.Del(k)
 }
 
-func (tx *mTx) Scan(pref kv.Key) kv.Iterator {
+func (tx *mTx) Scan(opts ...kv.IteratorOption) kv.Iterator {
 	mKVScan.Inc()
-	return tx.tx.Scan(pref)
+	return tx.tx.Scan(opts...)
 }

@@ -37,10 +37,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
 )
 
 // A HasA consists of a reference back to the graph.QuadStore that it references,
@@ -228,8 +228,8 @@ func (it *hasAContains) String() string {
 // iterator of "quads that have `val` in our direction", given to us by the quad store,
 // and then Next() values out of that iterator and Contains() them against our subiterator.
 func (it *hasAContains) Contains(ctx context.Context, val refs.Ref) bool {
-	if clog.V(4) {
-		clog.Infof("Id is %v", val)
+	if log.V(4) {
+		log.Info("Id is %v", val)
 	}
 	// TODO(barakmich): Optimize this
 	if it.results != nil {
@@ -252,12 +252,12 @@ func (it *hasAContains) nextContains(ctx context.Context) bool {
 	}
 	for it.results.Next(ctx) {
 		link := it.results.Result()
-		if clog.V(4) {
+		if log.V(4) {
 			qlv, err := it.qs.Quad(link)
 			if err == nil {
-				clog.Infof("Quad is %v", qlv)
+				log.Info("Quad is %v", qlv)
 			} else {
-				clog.Warningf("Error looking up result quad: %v", err)
+				log.Warn("Error looking up result quad: %v", err)
 			}
 		}
 		if it.primary.Contains(ctx, link) {
@@ -282,8 +282,8 @@ func (it *hasAContains) NextPath(ctx context.Context) bool {
 	//
 	// The upshot is, the end of NextPath() bubbles up from the bottom of the
 	// iterator tree up, and we need to respect that.
-	if clog.V(4) {
-		clog.Infof("HASA %p NextPath", it)
+	if log.V(4) {
+		log.Info("HASA %p NextPath", it)
 	}
 	if it.primary.NextPath(ctx) {
 		return true
@@ -297,8 +297,8 @@ func (it *hasAContains) NextPath(ctx context.Context) bool {
 	if it.err != nil {
 		return false
 	}
-	if clog.V(4) {
-		clog.Infof("HASA %p NextPath Returns %v", it, result)
+	if log.V(4) {
+		log.Info("HASA %p NextPath Returns %v", it, result)
 	}
 	return result
 }

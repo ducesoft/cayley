@@ -1,0 +1,116 @@
+.QueryPage {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: var(--theme-surface-1);
+}
+
+.QueryPage.vertical {
+  flex-direction: row;
+}
+
+.QueryPage.vertical .query-editor-group,
+.QueryPage.vertical .query-result-group {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.QueryPage.vertical .query-editor-group {
+  border-right-color: var(--theme-border-color);
+  border-right-style: solid;
+  border-right-width: 1px;
+}
+
+.QueryPage:not(.vertical) .query-editor-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.QueryPage:not(.vertical) .query-result-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dark-mode .QueryPage {
+  background: var(--mdc-theme-background);
+}
+
+.QueryPage .mdc-typography--headline6 {
+  margin: 0 30px;
+  padding: 12px 0;
+  display: block;
+}
+
+.QueryPage .actions {
+  background: var(--mdc-theme-background);
+  color: var(--mdc-theme-on-background);
+  padding: 8px 24px;
+  border-color: var(--theme-border-color);
+  border-style: solid;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 0;
+  border-right-width: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.QueryPage.vertical .actions {
+  padding-bottom: 8em;
+  border-bottom: 0;
+}
+
+.QueryPage .actions .timer {
+  margin-left: 16px;
+}
+
+.QueryPage .actions > .mdc-button {
+  margin-right: 24px;
+}
+
+.QueryPage .actions > .mdc-button:not(:last-child),
+.QueryPage .actions > .Select:not(:last-child) {
+  margin-right: 24px;
+}
+
+.QueryPage .actions > .mdc-button + .mdc-button {
+  margin-left: 0;
+}
+
+.QueryPage .mdc-tab-bar {
+  max-width: 35em;
+}
+
+.QueryPage .query-results {
+  flex: 1;
+  overflow: hidden;
+}
+
+.QueryPage .Select {
+  display: inline-block;
+  width: 10em;
+}
+
+.dark-mode .QueryPage .query-results {
+  background: var(--theme-surface-1);
+}
+
+.QueryPage .QueryEditor {
+  color: var(--mdc-theme-on-surface);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.QueryPage .QueryEditor .editor-wrapper {
+  flex: 1;
+  min-height: 300px;
+}

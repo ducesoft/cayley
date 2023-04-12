@@ -7,10 +7,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/cayleygraph/cayley"
-	"github.com/cayleygraph/cayley/graph"
-	_ "github.com/cayleygraph/cayley/graph/kv/bolt"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley"
+	"github.com/ducesoft/cayley/graph"
+	_ "github.com/ducesoft/cayley/graph/kv/bolt"
+	"github.com/ducesoft/cayley/quad"
 )
 
 func main() {

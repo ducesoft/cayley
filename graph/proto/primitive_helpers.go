@@ -1,8 +1,8 @@
 package proto
 
-import "github.com/cayleygraph/quad"
+import "github.com/ducesoft/cayley/quad"
 
-//go:generate protoc --proto_path=$GOPATH/src:. --gogo_out=. primitive.proto
+//go:generate protoc --proto_path=. --go_out=. --go_opt=module=github.com/ducesoft/cayley/graph/proto primitive.proto
 
 func (p Primitive) GetDirection(d quad.Direction) uint64 {
 	switch d {

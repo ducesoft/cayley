@@ -1,3 +1,4 @@
+//go:build docker
 // +build docker
 
 package cockroach
@@ -8,11 +9,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/sql/sqltest"
-	"github.com/cayleygraph/cayley/internal/dock"
-	"github.com/jackc/pgx"
-	_ "github.com/jackc/pgx/stdlib"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/sql/sqltest"
+	"github.com/ducesoft/cayley/internal/dock"
+	pgx "github.com/jackc/pgx/v5"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 func makeCockroach(t testing.TB) (string, graph.Options, func()) {

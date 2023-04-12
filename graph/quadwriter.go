@@ -26,8 +26,8 @@ import (
 	"errors"
 	"io"
 
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/quad"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/quad"
 )
 
 type Procedure int8

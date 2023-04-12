@@ -3,14 +3,14 @@ package linkedql
 import (
 	"context"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/cayley/query"
-	"github.com/cayleygraph/cayley/query/path"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/jsonld"
-	"github.com/cayleygraph/quad/voc"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/iterator"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/jsonld"
+	"github.com/ducesoft/cayley/quad/voc"
+	"github.com/ducesoft/cayley/query"
+	"github.com/ducesoft/cayley/query/path"
 )
 
 var _ query.Iterator = (*ValueIterator)(nil)

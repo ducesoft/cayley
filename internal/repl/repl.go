@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:build !appengine
 // +build !appengine
 
 package repl
@@ -28,10 +29,10 @@ import (
 
 	"github.com/peterh/liner"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/query"
-	"github.com/cayleygraph/quad/nquads"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad/nquads"
+	"github.com/ducesoft/cayley/query"
 )
 
 func trace(s string) (string, time.Time) {
@@ -161,9 +162,9 @@ func Repl(ctx context.Context, h *graph.Handle, queryLanguage string, timeout ti
 					}
 				}
 				if debug {
-					clog.SetV(2)
+					log.SetV(2)
 				} else {
-					clog.SetV(0)
+					log.SetV(0)
 				}
 				fmt.Printf("Debug set to %t\n", debug)
 				continue

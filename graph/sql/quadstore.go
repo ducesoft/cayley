@@ -9,14 +9,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/graph/iterator"
-	graphlog "github.com/cayleygraph/cayley/graph/log"
-	"github.com/cayleygraph/cayley/graph/refs"
-	"github.com/cayleygraph/cayley/internal/lru"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/pquads"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/graph/iterator"
+	graphlog "github.com/ducesoft/cayley/graph/log"
+	"github.com/ducesoft/cayley/graph/refs"
+	"github.com/ducesoft/cayley/internal/lru"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/pquads"
 )
 
 func registerQuadStore(name, typ string) {
@@ -145,7 +145,7 @@ func connect(addr string, flavor string, opts graph.Options) (*sql.DB, error) {
 	// TODO(barakmich): Parse options for more friendly addr
 	conn, err := sql.Open(flavor, addr)
 	if err != nil {
-		clog.Errorf("Couldn't open database at %s: %#v", addr, err)
+		log.Error("Couldn't open database at %s: %#v", addr, err)
 		return nil, err
 	}
 
@@ -153,7 +153,7 @@ func connect(addr string, flavor string, opts graph.Options) (*sql.DB, error) {
 	// "To verify that the data source name is valid, call Ping."
 	// Source: http://golang.org/pkg/database/sql/#Open
 	if err := conn.Ping(); err != nil {
-		clog.Errorf("Couldn't open database at %s: %#v", addr, err)
+		log.Error("Couldn't open database at %s: %#v", addr, err)
 		return nil, err
 	}
 
@@ -216,25 +216,25 @@ func Init(typ string, addr string, options graph.Options) error {
 		_, err = conn.Exec(nodesSQL)
 		if err != nil {
 			err = fl.Error(err)
-			clog.Errorf("Cannot create nodes table: %v", err)
+			log.Error("Cannot create nodes table: %v", err)
 			return err
 		}
 		_, err = conn.Exec(quadsSQL)
 		if err != nil {
 			err = fl.Error(err)
-			clog.Errorf("Cannot create quad table: %v", err)
+			log.Error("Cannot create quad table: %v", err)
 			return err
 		}
 		for _, index := range indexes {
 			if _, err = conn.Exec(index); err != nil {
-				clog.Errorf("Cannot create index: %v", err)
+				log.Error("Cannot create index: %v", err)
 				return err
 			}
 		}
 	} else {
 		tx, err := conn.Begin()
 		if err != nil {
-			clog.Errorf("Couldn't begin creation transaction: %s", err)
+			log.Error("Couldn't begin creation transaction: %s", err)
 			return err
 		}
 
@@ -242,19 +242,19 @@ func Init(typ string, addr string, options graph.Options) error {
 		if err != nil {
 			tx.Rollback()
 			err = fl.Error(err)
-			clog.Errorf("Cannot create nodes table: %v", err)
+			log.Error("Cannot create nodes table: %v", err)
 			return err
 		}
 		_, err = tx.Exec(quadsSQL)
 		if err != nil {
 			tx.Rollback()
 			err = fl.Error(err)
-			clog.Errorf("Cannot create quad table: %v", err)
+			log.Error("Cannot create quad table: %v", err)
 			return err
 		}
 		for _, index := range indexes {
 			if _, err = tx.Exec(index); err != nil {
-				clog.Errorf("Cannot create index: %v", err)
+				log.Error("Cannot create index: %v", err)
 				tx.Rollback()
 				return err
 			}
@@ -346,7 +346,7 @@ func NodeValues(h NodeHash, v quad.Value) (ValueType, []interface{}, error) {
 		nodeKey = 0
 		p, err := pquads.MarshalValue(v)
 		if err != nil {
-			clog.Errorf("couldn't marshal value: %v", err)
+			log.Error("couldn't marshal value: %v", err)
 			return 0, nil, err
 		}
 		values = append(values, p)
@@ -400,7 +400,7 @@ func (qs *QuadStore) ApplyDeltas(in []graph.Delta, opts graph.IgnoreOpts) error 
 
 	tx, err := qs.db.Begin()
 	if err != nil {
-		clog.Errorf("couldn't begin write transaction: %v", err)
+		log.Error("couldn't begin write transaction: %v", err)
 		return err
 	}
 
@@ -448,12 +448,12 @@ func (qs *QuadStore) ApplyDeltas(in []graph.Delta, opts graph.IgnoreOpts) error 
 			}
 			result, err := stmt.Exec(dirs...)
 			if err != nil {
-				clog.Errorf("couldn't exec DELETE statement: %v", err)
+				log.Error("couldn't exec DELETE statement: %v", err)
 				return err
 			}
 			affected, err := result.RowsAffected()
 			if err != nil {
-				clog.Errorf("couldn't get DELETE RowsAffected: %v", err)
+				log.Error("couldn't get DELETE RowsAffected: %v", err)
 				return err
 			}
 			if affected != 1 {
@@ -484,14 +484,14 @@ func (qs *QuadStore) ApplyDeltas(in []graph.Delta, opts graph.IgnoreOpts) error 
 			}
 			_, err := updateNode.Exec(n.RefInc, NodeHash{n.Hash}.SQLValue())
 			if err != nil {
-				clog.Errorf("couldn't exec UPDATE statement: %v", err)
+				log.Error("couldn't exec UPDATE statement: %v", err)
 				return err
 			}
 		}
 		// and remove unused nodes at last
 		_, err = tx.Exec(`DELETE FROM nodes WHERE refs <= 0;`)
 		if err != nil {
-			clog.Errorf("couldn't exec DELETE nodes statement: %v", err)
+			log.Error("couldn't exec DELETE nodes statement: %v", err)
 			return err
 		}
 		return nil
@@ -775,13 +775,13 @@ func (qs *QuadStore) sizeForIterator(dir quad.Direction, hash NodeHash) int64 {
 		return val.(int64)
 	}
 	var size int64
-	if clog.V(4) {
-		clog.Infof("sql: getting size for select %s, %v", dir.String(), hash)
+	if log.V(4) {
+		log.Info("sql: getting size for select %s, %v", dir.String(), hash)
 	}
 	err = qs.db.QueryRow(
 		fmt.Sprintf("SELECT count(*) FROM quads WHERE %s_hash = "+qs.flavor.Placeholder(1)+";", dir.String()), hash.SQLValue()).Scan(&size)
 	if err != nil {
-		clog.Errorf("Error getting size from SQL database: %v", err)
+		log.Error("Error getting size from SQL database: %v", err)
 		return 0
 	}
 	qs.sizes.Put(hash.String()+string(dir.Prefix()), size)

@@ -25,11 +25,11 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	"github.com/cayleygraph/cayley/clog"
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/internal/decompressor"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/nquads"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/internal/decompressor"
+	"github.com/ducesoft/cayley/log"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/nquads"
 )
 
 func ParseJSONToQuadList(jsonBody []byte) (out []quad.Quad, _ error) {
@@ -105,7 +105,7 @@ func (api *API) ServeV1WriteNQuad(w http.ResponseWriter, r *http.Request, params
 
 	formFile, _, err := r.FormFile("NQuadFile")
 	if err != nil {
-		clog.Errorf("%v", err)
+		log.Error("%v", err)
 		jsonResponse(w, 500, "Couldn't read file: "+err.Error())
 		return
 	}

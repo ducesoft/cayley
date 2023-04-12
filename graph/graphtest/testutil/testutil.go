@@ -5,10 +5,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/cayleygraph/cayley/graph"
-	"github.com/cayleygraph/cayley/writer"
-	"github.com/cayleygraph/quad"
-	"github.com/cayleygraph/quad/nquads"
+	"github.com/ducesoft/cayley/graph"
+	"github.com/ducesoft/cayley/quad"
+	"github.com/ducesoft/cayley/quad/nquads"
+	"github.com/ducesoft/cayley/writer"
 	"github.com/stretchr/testify/require"
 )
 
