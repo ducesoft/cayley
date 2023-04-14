@@ -19,7 +19,7 @@ import (
 	"context"
 	"time"
 
-	bolt "go.etcd.io/bbolt"
+	"go.etcd.io/bbolt"
 
 	"github.com/ducesoft/cayley/dal/base"
 	"github.com/ducesoft/cayley/dal/kv"
@@ -41,12 +41,12 @@ func init() {
 
 var _ kv.KV = (*DB)(nil)
 
-func New(d *bolt.DB) *DB {
+func New(d *bbolt.DB) *DB {
 	return &DB{db: d}
 }
 
-func Open(path string, opt *bolt.Options) (*DB, error) {
-	db, err := bolt.Open(path, 0o644, opt)
+func Open(path string, opt *bbolt.Options) (*DB, error) {
+	db, err := bbolt.Open(path, 0o644, opt)
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +54,7 @@ func Open(path string, opt *bolt.Options) (*DB, error) {
 }
 
 func OpenPath(path string) (kv.KV, error) {
-	db, err := Open(path, &bolt.Options{
+	db, err := Open(path, &bbolt.Options{
 		Timeout: time.Second,
 	})
 	if err != nil {
@@ -64,10 +64,10 @@ func OpenPath(path string) (kv.KV, error) {
 }
 
 type DB struct {
-	db *bolt.DB
+	db *bbolt.DB
 }
 
-func (db *DB) DB() *bolt.DB {
+func (db *DB) DB() *bbolt.DB {
 	return db.db
 }
 
@@ -92,16 +92,16 @@ func (db *DB) Update(ctx context.Context, fn func(tx kv.Tx) error) error {
 }
 
 type Tx struct {
-	tx *bolt.Tx
+	tx *bbolt.Tx
 }
 
-func (tx *Tx) root() *bolt.Bucket {
+func (tx *Tx) root() *bbolt.Bucket {
 	// a hack to get the root bucket
 	c := tx.tx.Cursor()
 	return c.Bucket()
 }
 
-func (tx *Tx) bucket(key kv.Key) (*bolt.Bucket, kv.Key) {
+func (tx *Tx) bucket(key kv.Key) (*bbolt.Bucket, kv.Key) {
 	if len(key) <= 1 {
 		return tx.root(), key
 	}
@@ -146,7 +146,7 @@ func (tx *Tx) Close() error {
 
 func (tx *Tx) Put(k kv.Key, v kv.Value) error {
 	var (
-		b   *bolt.Bucket
+		b   *bbolt.Bucket
 		err error
 	)
 	if len(k) <= 1 {
@@ -165,7 +165,7 @@ func (tx *Tx) Put(k kv.Key, v kv.Value) error {
 		return nil // bucket creation, no need to put value
 	}
 	err = b.Put(k[0], v)
-	if err == bolt.ErrTxNotWritable {
+	if err == bbolt.ErrTxNotWritable {
 		err = kv.ErrReadOnly
 	}
 	return err
@@ -177,7 +177,7 @@ func (tx *Tx) Del(k kv.Key) error {
 		return nil
 	}
 	err := b.Delete(k[0])
-	if err == bolt.ErrTxNotWritable {
+	if err == bbolt.ErrTxNotWritable {
 		err = kv.ErrReadOnly
 	}
 	return err
@@ -199,13 +199,13 @@ var (
 
 type Iterator struct {
 	tx    *Tx // only used for iterator optimization
-	rootb *bolt.Bucket
+	rootb *bbolt.Bucket
 	rootk kv.Key // used to reconstruct a full key
 	pref  kv.Key // prefix to check all keys against
 	stack struct {
 		k kv.Key
-		b []*bolt.Bucket
-		c []*bolt.Cursor
+		b []*bbolt.Bucket
+		c []*bbolt.Cursor
 	}
 	k, v []byte // inside the current bucket
 }
@@ -223,7 +223,7 @@ func (it *Iterator) Reset() {
 	}
 	copy(it.stack.k, it.rootk)
 	if it.rootb != nil {
-		it.stack.b = []*bolt.Bucket{it.rootb}
+		it.stack.b = []*bbolt.Bucket{it.rootb}
 	}
 }
 

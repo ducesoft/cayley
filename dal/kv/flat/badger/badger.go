@@ -16,7 +16,8 @@ const (
 func init() {
 	flat.Register(flat.Registration{
 		Registration: base.Registration{
-			Name: Name, Title: "Badger",
+			Name:  Name,
+			Title: "Badger",
 			Local: true,
 		},
 		OpenPath: OpenPath,
